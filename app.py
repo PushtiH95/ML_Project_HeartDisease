@@ -325,7 +325,7 @@ with st.sidebar:
 if predict_button:
     # Build input dict
     input_dict = {
-        'age': age * 365,
+        'age': age ,
         'gender': gender,
         'height': height,
         'weight': weight,
