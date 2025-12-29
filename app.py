@@ -290,30 +290,35 @@ data = data.loc[:, ~data.columns.str.contains("^Unnamed")]
 def generate_pdf(res, explanation):
     pdf = FPDF()
     pdf.add_page()
-    pdf.set_font("Arial", "B", 16)
-    pdf.cell(200, 10, "HeartGuard Neo – Diagnostic Report", ln=True, align="C")
+
+    # Unicode fonts
+    pdf.add_font("DejaVu", "", "DejaVuSans.ttf", uni=True)
+    pdf.add_font("DejaVu", "B", "DejaVuSans-Bold.ttf", uni=True)
+
+    pdf.set_font("DejaVu", "B", 16)
+    pdf.cell(0, 10, "HeartGuard Neo – Diagnostic Report", ln=True, align="C")
     pdf.ln(8)
 
-    pdf.set_font("Arial", size=12)
-    pdf.cell(200, 8, f"Risk Probability: {res['prob']*100:.1f}%", ln=True)
-    pdf.cell(200, 8, f"Risk Status: {'HIGH' if res['pred']==1 else 'LOW'}", ln=True)
-    pdf.cell(200, 8, f"BMI: {res['bmi']:.2f}", ln=True)
+    pdf.set_font("DejaVu", size=12)
+    pdf.cell(0, 8, f"Risk Probability: {res['prob']*100:.1f}%", ln=True)
+    pdf.cell(0, 8, f"Risk Status: {'HIGH' if res['pred']==1 else 'LOW'}", ln=True)
+    pdf.cell(0, 8, f"BMI: {res['bmi']:.2f}", ln=True)
     pdf.ln(6)
 
-    pdf.set_font("Arial", "B", 12)
-    pdf.cell(200, 8, "Why this result?", ln=True)
-    pdf.set_font("Arial", size=11)
+    pdf.set_font("DejaVu", "B", 12)
+    pdf.cell(0, 8, "Why this result?", ln=True)
+
+    pdf.set_font("DejaVu", size=11)
     pdf.multi_cell(0, 7, explanation)
 
     pdf.ln(4)
     pdf.multi_cell(
         0, 7,
-        "Disclaimer: This AI-generated report is for educational purposes only and "
-        "must not replace professional medical consultation."
+        "Disclaimer: This AI-generated report is for educational purposes only "
+        "and must not replace professional medical consultation."
     )
 
-    return pdf.output(dest="S").encode("latin-1")
-
+    return pdf.output(dest="S").encode("utf-8")
 # ===============================
 # SESSION STATE
 # ===============================
