@@ -410,10 +410,10 @@ st.set_page_config(
 # -------------------------------
 # Load model and scaler
 # -------------------------------
-with open("heart_model.pkl", "rb") as f:
+with open("heart_model_v2.pkl", "rb") as f:
     model = pickle.load(f)
 
-with open("scaler.pkl", "rb") as f:
+with open("scaler_v2.pkl", "rb") as f:
     scaler = pickle.load(f)
 
 # -------------------------------
