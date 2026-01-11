@@ -203,7 +203,8 @@ model = load_model()
 
 # Generate sample data for correlation matrix
     
-  @st.cache_data
+# Generate sample data for correlation matrix
+@st.cache_data
 def generate_correlation_data():
     np.random.seed(42)
     n_samples = 1000
@@ -230,9 +231,11 @@ def generate_correlation_data():
         (df['systolic_bp'] > 140).astype(int) +
         (df['cholesterol'] > 1).astype(int) +
         (df['BMI'] > 30).astype(int)
-    > 1).astype(int)
+        > 1
+    ).astype(int)
 
     return df
+
 
 
 # correlation_data = generate_correlation_data()
