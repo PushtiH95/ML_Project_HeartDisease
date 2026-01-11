@@ -682,8 +682,7 @@ elif page == "Model Analysis":
             height=400,
             showlegend=True,
             plot_bgcolor='rgba(0,0,0,0)',
-            paper_bgcolor='rgba(0,0,0,0)',
-            font=dict(color='inherit')
+            paper_bgcolor='rgba(0,0,0,0)'
         )
         st.plotly_chart(fig, use_container_width=True)
     
@@ -792,25 +791,25 @@ elif page == "Methodology":
     
     with col_meth1:
         st.markdown("<div class='section-title'>Data Processing Pipeline</div>", unsafe_allow_html=True)
-        st.markdown("""
-        <div class='professional-card'>
-            <h4>1. Data Acquisition</h4>
-            <p>• Source: Cardiovascular Disease Dataset (70k records)</p>
-            <p>• Variables: 12 clinical parameters per patient</p>
-            <p>• Period: Longitudinal data spanning 3 years</p>
-            
-            <h4>2. Preprocessing</h4>
-            <p>• Missing value imputation using k-NN</p>
-            <p>• Outlier detection using IQR method</p>
-            <p>• Feature engineering: BMI calculation</p>
-            <p>• Normalization using StandardScaler</p>
-            
-            <h4>3. Quality Assurance</h4>
-            <p>• Clinical validity verification</p>
-            <p>• Range checking for physiological values</p>
-            <p>• Temporal consistency validation</p>
-        </div>
-        """, unsafe_allow_html=True)
+       st.markdown("""
+<div class="professional-card">
+    <h4>2. Preprocessing</h4>
+    <ul>
+        <li>Missing value imputation using k-NN</li>
+        <li>Outlier detection using IQR method</li>
+        <li>Feature engineering: BMI calculation</li>
+        <li>Normalization using StandardScaler</li>
+    </ul>
+
+    <h4>3. Quality Assurance</h4>
+    <ul>
+        <li>Clinical validity verification</li>
+        <li>Range checking for physiological values</li>
+        <li>Temporal consistency validation</li>
+    </ul>
+</div>
+""", unsafe_allow_html=True)
+
         
         st.markdown("<div class='section-title'>Model Selection Rationale</div>", unsafe_allow_html=True)
         st.markdown("""
