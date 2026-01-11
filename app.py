@@ -15,7 +15,7 @@ st.set_page_config(
 )
 
 # ===============================
-# GLOBAL STYLES (PRO UI)
+# GLOBAL STYLES (CLEAN & PROFESSIONAL)
 # ===============================
 st.markdown("""
 <style>
@@ -24,8 +24,6 @@ st.markdown("""
     color: #e5e7eb;
     font-family: 'Inter', system-ui, sans-serif;
 }
-
-/* Glass Cards */
 .glass {
     background: rgba(15, 23, 42, 0.7);
     border: 1px solid rgba(148, 163, 184, 0.15);
@@ -35,42 +33,17 @@ st.markdown("""
     backdrop-filter: blur(14px);
     margin-bottom: 25px;
 }
-
-/* Titles */
 .title {
-    font-size: 3rem;
+    font-size: 2.8rem;
     font-weight: 800;
     background: linear-gradient(90deg, #38bdf8, #22d3ee);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-
 .subtitle {
     color: #94a3b8;
     font-size: 1.1rem;
 }
-
-/* Buttons */
-.stButton>button {
-    background: linear-gradient(90deg, #38bdf8, #22d3ee);
-    border: none;
-    border-radius: 12px;
-    padding: 14px 28px;
-    font-weight: 700;
-    color: #020617;
-    transition: 0.3s;
-}
-
-.stButton>button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(56,189,248,0.4);
-}
-
-/* Risk badges */
-.high {background: linear-gradient(90deg,#dc2626,#991b1b);}
-.mid  {background: linear-gradient(90deg,#f59e0b,#d97706);}
-.low  {background: linear-gradient(90deg,#10b981,#059669);}
-
 .badge {
     padding: 18px;
     border-radius: 14px;
@@ -79,12 +52,9 @@ st.markdown("""
     font-size: 1.3rem;
     font-weight: 700;
 }
-
-/* Tables */
-thead tr th {
-    background-color: #020617 !important;
-    color: #38bdf8 !important;
-}
+.high {background: linear-gradient(90deg,#dc2626,#991b1b);}
+.mid  {background: linear-gradient(90deg,#f59e0b,#d97706);}
+.low  {background: linear-gradient(90deg,#10b981,#059669);}
 </style>
 """, unsafe_allow_html=True)
 
@@ -99,7 +69,7 @@ def load_model():
 model = load_model()
 
 # ===============================
-# ACCURACY TABLE (REAL RESULTS)
+# ACCURACY TABLE (FIXED – YOUR REAL RESULTS)
 # ===============================
 accuracy_df = pd.DataFrame({
     "Model": [
@@ -145,34 +115,24 @@ with st.sidebar:
 # ===============================
 if page == "Dashboard":
     st.markdown("<div class='title'>CardioPredict AI</div>", unsafe_allow_html=True)
-    st.markdown("<div class='subtitle'>Professional Cardiovascular Risk Assessment System</div>", unsafe_allow_html=True)
+    st.markdown("<div class='subtitle'>Heart Disease Risk Assessment using Machine Learning</div>", unsafe_allow_html=True)
 
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.markdown("<div class='glass'><h3>Clinical Purpose</h3>"
-                    "<p>Early identification of cardiovascular risk using validated machine learning models.</p></div>",
+        st.markdown("<div class='glass'><h3>Clinical Goal</h3>"
+                    "<p>Early identification of cardiovascular risk using validated ML models.</p></div>",
                     unsafe_allow_html=True)
 
     with col2:
         st.markdown("<div class='glass'><h3>Model Strategy</h3>"
-                    "<p>Multiple models evaluated using cross-validation & hyperparameter tuning.</p></div>",
+                    "<p>Multiple algorithms evaluated using cross-validation & tuning.</p></div>",
                     unsafe_allow_html=True)
 
     with col3:
-        st.markdown("<div class='glass'><h3>Deployment Ready</h3>"
-                    "<p>Best-performing model serialized using Pickle for production inference.</p></div>",
+        st.markdown("<div class='glass'><h3>Deployment</h3>"
+                    "<p>Best model serialized using Pickle for real-time prediction.</p></div>",
                     unsafe_allow_html=True)
-
-    st.markdown("<div class='glass'>", unsafe_allow_html=True)
-    st.subheader("Final Model Selection")
-    st.write("""
-    **Decision Tree (Hyperparameter Tuned)** was selected based on:
-    - Highest validated accuracy  
-    - Strong handling of non-linear clinical patterns  
-    - Transparent decision logic  
-    """)
-    st.markdown("</div>", unsafe_allow_html=True)
 
 # ===============================
 # RISK PREDICTION
@@ -181,18 +141,18 @@ elif page == "Risk Prediction":
     st.markdown("<div class='title'>Risk Prediction</div>", unsafe_allow_html=True)
     st.markdown("<div class='subtitle'>Enter patient parameters</div>", unsafe_allow_html=True)
 
-    with st.form("predict"):
+    with st.form("predict_form"):
         col1, col2 = st.columns(2)
 
         with col1:
-            age = st.slider("Age", 18, 100, 45)
+            age = st.slider("Age (years)", 18, 100, 45)
             gender = st.selectbox("Gender", [1, 2], format_func=lambda x: "Female" if x == 1 else "Male")
             height = st.slider("Height (cm)", 140, 210, 170)
             weight = st.slider("Weight (kg)", 40, 200, 75)
 
         with col2:
-            ap_hi = st.slider("Systolic BP", 80, 200, 120)
-            ap_lo = st.slider("Diastolic BP", 50, 130, 80)
+            systolic_bp = st.slider("Systolic BP (mmHg)", 80, 200, 120)
+            diastolic_bp = st.slider("Diastolic BP (mmHg)", 50, 130, 80)
             cholesterol = st.selectbox("Cholesterol Level", [1, 2, 3])
             gluc = st.selectbox("Glucose Level", [1, 2, 3])
             smoke = st.checkbox("Smoking")
@@ -202,13 +162,28 @@ elif page == "Risk Prediction":
         submit = st.form_submit_button("Analyze Risk")
 
     if submit:
-        X = pd.DataFrame([[age, gender, height, weight, ap_hi, ap_lo,
-                           cholesterol, gluc, int(smoke), int(alco), int(active)]],
-                         columns=["age","gender","height","weight",
-                                  "ap_hi","ap_lo","cholesterol","gluc",
-                                  "smoke","alco","active"])
+        # ---- BMI CALCULATION (KEY FIX) ----
+        height_m = height / 100
+        BMI = weight / (height_m ** 2)
+
+        # ---- CREATE INPUT EXACTLY AS TRAINED ----
+        X = pd.DataFrame([[
+            age,
+            gender,
+            height,
+            weight,
+            systolic_bp,
+            diastolic_bp,
+            cholesterol,
+            gluc,
+            int(smoke),
+            int(alco),
+            int(active),
+            BMI
+        ]], columns=model.feature_names_in_)
 
         prob = model.predict_proba(X)[0][1]
+        pred = model.predict(X)[0]
 
         st.markdown("<div class='glass'>", unsafe_allow_html=True)
 
@@ -221,8 +196,9 @@ elif page == "Risk Prediction":
 
         fig = go.Figure(go.Indicator(
             mode="gauge+number",
-            value=prob*100,
-            gauge={"axis": {"range": [0,100]},
+            value=prob * 100,
+            number={"suffix": "%"},
+            gauge={"axis": {"range": [0, 100]},
                    "bar": {"color": "#38bdf8"}}
         ))
         st.plotly_chart(fig, use_container_width=True)
@@ -234,8 +210,6 @@ elif page == "Risk Prediction":
 # ===============================
 elif page == "Model Performance":
     st.markdown("<div class='title'>Model Performance</div>", unsafe_allow_html=True)
-    st.markdown("<div class='subtitle'>Comparative evaluation</div>", unsafe_allow_html=True)
-
     st.markdown("<div class='glass'>", unsafe_allow_html=True)
     st.dataframe(accuracy_df, use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True)
@@ -245,13 +219,16 @@ elif page == "Model Performance":
 # ===============================
 elif page == "Methodology":
     st.markdown("<div class='title'>Methodology</div>", unsafe_allow_html=True)
-
     st.markdown("""
     ### Why Decision Tree?
-    - Captures **non-linear medical relationships**
-    - Interpretable decisions (important in healthcare)
-    - Highest **cross-validated tuned accuracy**
-    - Balanced bias–variance tradeoff
+    - Captures **non-linear relationships** in medical data  
+    - Hyperparameter tuning reduced overfitting  
+    - Achieved **highest validated accuracy (72.78%)**  
+
+    ### Evaluation Techniques
+    - Train–Test Split  
+    - K-Fold Cross Validation  
+    - Hyperparameter Tuning  
     """)
 
 # ===============================
