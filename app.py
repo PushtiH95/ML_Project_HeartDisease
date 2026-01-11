@@ -6,7 +6,7 @@ import plotly.graph_objects as go
 import plotly.express as px
 from datetime import datetime
 import matplotlib.pyplot as plt
-# import seaborn as sns
+import seaborn as sns
 
 # ===============================
 # PAGE CONFIG
@@ -202,11 +202,12 @@ def load_model():
 model = load_model()
 
 # Generate sample data for correlation matrix
-@st.cache_data
+    
+  @st.cache_data
 def generate_correlation_data():
     np.random.seed(42)
     n_samples = 1000
-    
+
     data = {
         'age': np.random.normal(50, 15, n_samples),
         'gender': np.random.choice([1, 2], n_samples),
@@ -214,28 +215,25 @@ def generate_correlation_data():
         'weight': np.random.normal(75, 15, n_samples),
         'systolic_bp': np.random.normal(120, 20, n_samples),
         'diastolic_bp': np.random.normal(80, 10, n_samples),
-        'cholesterol': np.random.choice([1, 2, 3], n_samples, p=[0.5, 0.3, 0.2]),
-        'gluc': np.random.choice([1, 2, 3], n_samples, p=[0.6, 0.3, 0.1]),
-        'smoke': np.random.choice([0, 1], n_samples, p=[0.8, 0.2]),
-        'alco': np.random.choice([0, 1], n_samples, p=[0.85, 0.15]),
-        'active': np.random.choice([0, 1], n_samples, p=[0.3, 0.7]),
-        'BMI': np.random.normal(25, 5, n_samples),
-        'cardio': np.random.choice([0, 1], n_samples, p=[0.7, 0.3])
+        'cholesterol': np.random.choice([1, 2, 3], n_samples),
+        'gluc': np.random.choice([1, 2, 3], n_samples),
+        'smoke': np.random.choice([0, 1], n_samples),
+        'alco': np.random.choice([0, 1], n_samples),
+        'active': np.random.choice([0, 1], n_samples),
     }
-    
+
     df = pd.DataFrame(data)
-    
-    # Create realistic correlations
-    df['systolic_bp'] = df['systolic_bp'] + 0.3 * df['age'] + 0.2 * df['BMI']
-    df['diastolic_bp'] = df['diastolic_bp'] + 0.2 * df['age'] + 0.15 * df['BMI']
-    df['BMI'] = df['weight'] / ((df['height']/100) ** 2)
-    df['cardio'] = (0.4 * (df['age'] > 55) + 
-                    0.3 * (df['systolic_bp'] > 140) + 
-                    0.2 * (df['cholesterol'] > 1) + 
-                    0.1 * (df['BMI'] > 30) + 
-                    np.random.normal(0, 0.2, n_samples) > 0.5).astype(int)
-    
+    df['BMI'] = df['weight'] / ((df['height'] / 100) ** 2)
+
+    df['cardio'] = (
+        (df['age'] > 55).astype(int) +
+        (df['systolic_bp'] > 140).astype(int) +
+        (df['cholesterol'] > 1).astype(int) +
+        (df['BMI'] > 30).astype(int)
+    > 1).astype(int)
+
     return df
+
 
 # correlation_data = generate_correlation_data()
 
@@ -324,16 +322,10 @@ with st.sidebar:
 # CLINICAL DASHBOARD
 # ===============================
 if page == "Clinical Dashboard":
+    correlation_data = generate_correlation_data()
     col1, col2 = st.columns([2, 1])
     
-    with col1:
-        if st.checkbox("Show Correlation Analysis"):
-            correlation_data = generate_correlation_data()
-            corr_matrix = correlation_data[['age', 'systolic_bp', 'diastolic_bp', 'BMI', 'cholesterol', 'cardio']].corr()
-            fig = px.imshow(corr_matrix, text_auto=True, aspect="auto")
-            st.plotly_chart(fig, use_container_width=True)
-
-
+   
     
     with col2:
         st.markdown("""
@@ -493,20 +485,23 @@ elif page == "Risk Assessment":
         gluc_val = gluc[1]
         gender_val = gender[1]
         
-        X = pd.DataFrame([[
-            age,
-            gender_val,
-            height,
-            weight,
-            systolic_bp,
-            diastolic_bp,
-            cholesterol_val,
-            gluc_val,
-            int(smoke),
-            int(alco),
-            int(active),
-            BMI
-        ]], columns=model.feature_names_in_)
+        X = pd.DataFrame([{
+    "age": age,
+    "gender": gender_val,
+    "height": height,
+    "weight": weight,
+    "systolic_bp": systolic_bp,
+    "diastolic_bp": diastolic_bp,
+    "cholesterol": cholesterol_val,
+    "gluc": gluc_val,
+    "smoke": int(smoke),
+    "alco": int(alco),
+    "active": int(active),
+    "BMI": BMI
+}])
+
+X = X[model.feature_names_in_]
+
         
         # Get prediction
         prob = model.predict_proba(X)[0][1]
