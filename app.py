@@ -823,5 +823,9 @@ elif page == "Methodology":
             <h4>Decision Tree Advantages</h4>
             
             <div class='feature-importance'>Clinical Interpretability</div>
-            <p>Decision trees provide clear decision paths that clinicians can understand and validate against medical guidelines.</p>
-            
+            <p>
+                Decision trees provide clear decision paths that clinicians can understand
+                and validate against established medical guidelines.
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
