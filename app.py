@@ -479,34 +479,34 @@ elif page == "Risk Assessment":
             """, unsafe_allow_html=True)
     
     if submitted:
-    # Calculate BMI
-    height_m = height / 100
-    BMI = weight / (height_m ** 2)
+        # Calculate BMI
+        height_m = height / 100
+        BMI = weight / (height_m ** 2)
 
-    # Prepare input data
-    cholesterol_val = cholesterol[1]
-    gluc_val = gluc[1]
-    gender_val = gender[1]
+        # Prepare input data
+        cholesterol_val = cholesterol[1]
+        gluc_val = gluc[1]
+        gender_val = gender[1]
 
-    X = pd.DataFrame([{
-        "age": age,
-        "gender": gender_val,
-        "height": height,
-        "weight": weight,
-        "systolic_bp": systolic_bp,
-        "diastolic_bp": diastolic_bp,
-        "cholesterol": cholesterol_val,
-        "gluc": gluc_val,
-        "smoke": int(smoke),
-        "alco": int(alco),
-        "active": int(active),
-        "BMI": BMI
-    }])
+        X = pd.DataFrame([{
+            "age": age,
+            "gender": gender_val,
+            "height": height,
+            "weight": weight,
+            "systolic_bp": systolic_bp,
+            "diastolic_bp": diastolic_bp,
+            "cholesterol": cholesterol_val,
+            "gluc": gluc_val,
+            "smoke": int(smoke),
+            "alco": int(alco),
+            "active": int(active),
+            "BMI": BMI
+        }])
 
-    X = X[model.feature_names_in_]
+        X = X[model.feature_names_in_]
 
-    prob = model.predict_proba(X)[0][1]
-    risk_percentage = prob * 100
+        prob = model.predict_proba(X)[0][1]
+        risk_percentage = prob * 100
 
 
         
