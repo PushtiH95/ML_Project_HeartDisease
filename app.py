@@ -194,8 +194,8 @@ def load_model():
         # Fit on dummy data
         X_dummy = np.random.randn(100, 12)
         y_dummy = np.random.randint(0, 2, 100)
-        model.feature_names_in_ = ['age', 'gender', 'height', 'weight', 'ap_hi', 
-                                  'ap_lo', 'cholesterol', 'gluc', 'smoke', 'alco', 
+        model.feature_names_in_ = ['age', 'gender', 'height', 'weight', 'systolic_bp', 
+                                  'diastolic_bp', 'cholesterol', 'gluc', 'smoke', 'alco', 
                                   'active', 'BMI']
         return model
 
@@ -212,8 +212,8 @@ def generate_correlation_data():
         'gender': np.random.choice([1, 2], n_samples),
         'height': np.random.normal(170, 10, n_samples),
         'weight': np.random.normal(75, 15, n_samples),
-        'ap_hi': np.random.normal(120, 20, n_samples),
-        'ap_lo': np.random.normal(80, 10, n_samples),
+        'systolic_bp': np.random.normal(120, 20, n_samples),
+        'diastolic_bp': np.random.normal(80, 10, n_samples),
         'cholesterol': np.random.choice([1, 2, 3], n_samples, p=[0.5, 0.3, 0.2]),
         'gluc': np.random.choice([1, 2, 3], n_samples, p=[0.6, 0.3, 0.1]),
         'smoke': np.random.choice([0, 1], n_samples, p=[0.8, 0.2]),
@@ -226,11 +226,11 @@ def generate_correlation_data():
     df = pd.DataFrame(data)
     
     # Create realistic correlations
-    df['ap_hi'] = df['ap_hi'] + 0.3 * df['age'] + 0.2 * df['BMI']
-    df['ap_lo'] = df['ap_lo'] + 0.2 * df['age'] + 0.15 * df['BMI']
+    df['systolic_bp'] = df['systolic_bp'] + 0.3 * df['age'] + 0.2 * df['BMI']
+    df['diastolic_bp'] = df['diastolic_bp'] + 0.2 * df['age'] + 0.15 * df['BMI']
     df['BMI'] = df['weight'] / ((df['height']/100) ** 2)
     df['cardio'] = (0.4 * (df['age'] > 55) + 
-                    0.3 * (df['ap_hi'] > 140) + 
+                    0.3 * (df['systolic_bp'] > 140) + 
                     0.2 * (df['cholesterol'] > 1) + 
                     0.1 * (df['BMI'] > 30) + 
                     np.random.normal(0, 0.2, n_samples) > 0.5).astype(int)
@@ -329,7 +329,7 @@ if page == "Clinical Dashboard":
     with col1:
         if st.checkbox("Show Correlation Analysis"):
             correlation_data = generate_correlation_data()
-            corr_matrix = correlation_data[['age', 'ap_hi', 'ap_lo', 'BMI', 'cholesterol', 'cardio']].corr()
+            corr_matrix = correlation_data[['age', 'systolic_bp', 'diastolic_bp', 'BMI', 'cholesterol', 'cardio']].corr()
             fig = px.imshow(corr_matrix, text_auto=True, aspect="auto")
             st.plotly_chart(fig, use_container_width=True)
 
@@ -390,7 +390,7 @@ if page == "Clinical Dashboard":
     
     with col1:
         fig, ax = plt.subplots(figsize=(10, 8))
-        corr_matrix = correlation_data[['age', 'ap_hi', 'ap_lo', 'BMI', 'cholesterol', 'cardio']].corr()
+        corr_matrix = correlation_data[['age', 'systolic_bp', 'diastolic_bp', 'BMI', 'cholesterol', 'cardio']].corr()
         mask = np.triu(np.ones_like(corr_matrix, dtype=bool))
         sns.heatmap(corr_matrix, mask=mask, annot=True, fmt='.2f', cmap='coolwarm', 
                    center=0, square=True, linewidths=1, cbar_kws={"shrink": 0.8}, ax=ax)
