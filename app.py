@@ -181,8 +181,8 @@ def load_model():
         with open("heart_disease_model.pkl", "rb") as f:
             return pickle.load(f)
     except FileNotFoundError:
-    st.error("❌ Trained model file (heart_disease_model.pkl) not found.")
-    st.stop()
+        st.error("❌ Trained model file (heart_disease_model.pkl) not found.")
+        st.stop()
 
         
         # Create a simple pipeline
