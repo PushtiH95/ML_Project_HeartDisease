@@ -327,11 +327,12 @@ if page == "Clinical Dashboard":
     col1, col2 = st.columns([2, 1])
     
     with col1:
-    if st.checkbox("Show Correlation Analysis"):
-        correlation_data = generate_correlation_data()
-        corr_matrix = correlation_data[['age', 'ap_hi', 'ap_lo', 'BMI', 'cholesterol', 'cardio']].corr()
-        fig = px.imshow(corr_matrix, text_auto=True, aspect="auto")
-        st.plotly_chart(fig, use_container_width=True)
+        if st.checkbox("Show Correlation Analysis"):
+            correlation_data = generate_correlation_data()
+            corr_matrix = correlation_data[['age', 'ap_hi', 'ap_lo', 'BMI', 'cholesterol', 'cardio']].corr()
+            fig = px.imshow(corr_matrix, text_auto=True, aspect="auto")
+            st.plotly_chart(fig, use_container_width=True)
+
 
     
     with col2:
