@@ -6,7 +6,7 @@ import plotly.graph_objects as go
 import plotly.express as px
 from datetime import datetime
 import matplotlib.pyplot as plt
-import seaborn as sns
+# import seaborn as sns
 
 # ===============================
 # PAGE CONFIG
@@ -181,11 +181,9 @@ def load_model():
         with open("heart_disease_model.pkl", "rb") as f:
             return pickle.load(f)
     except FileNotFoundError:
-        # Create a dummy model for demonstration
-        from sklearn.tree import DecisionTreeClassifier
-        from sklearn.preprocessing import StandardScaler
-        from sklearn.pipeline import Pipeline
-        import numpy as np
+    st.error("❌ Trained model file (heart_disease_model.pkl) not found.")
+    st.stop()
+
         
         # Create a simple pipeline
         model = Pipeline([
@@ -196,7 +194,6 @@ def load_model():
         # Fit on dummy data
         X_dummy = np.random.randn(100, 12)
         y_dummy = np.random.randint(0, 2, 100)
-        model.fit(X_dummy, y_dummy)
         model.feature_names_in_ = ['age', 'gender', 'height', 'weight', 'ap_hi', 
                                   'ap_lo', 'cholesterol', 'gluc', 'smoke', 'alco', 
                                   'active', 'BMI']
@@ -240,7 +237,7 @@ def generate_correlation_data():
     
     return df
 
-correlation_data = generate_correlation_data()
+# correlation_data = generate_correlation_data()
 
 # ===============================
 # PERFORMANCE METRICS (Dynamic)
@@ -330,13 +327,12 @@ if page == "Clinical Dashboard":
     col1, col2 = st.columns([2, 1])
     
     with col1:
-        st.markdown("<div class='main-title'>CardioPredict AI</div>", unsafe_allow_html=True)
-        st.markdown("""
-        <p style='font-size: 1.1rem; color: var(--text-dark); opacity: 0.9;'>
-        Advanced cardiovascular risk assessment using machine learning for early detection 
-        and prevention of heart disease.
-        </p>
-        """, unsafe_allow_html=True)
+    if st.checkbox("Show Correlation Analysis"):
+        correlation_data = generate_correlation_data()
+        corr_matrix = correlation_data[['age', 'ap_hi', 'ap_lo', 'BMI', 'cholesterol', 'cardio']].corr()
+        fig = px.imshow(corr_matrix, text_auto=True, aspect="auto")
+        st.plotly_chart(fig, use_container_width=True)
+
     
     with col2:
         st.markdown("""
