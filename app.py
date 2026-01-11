@@ -488,7 +488,7 @@ elif page == "Risk Assessment":
         gluc_val = gluc[1]
         gender_val = gender[1]
         
-        X = pd.DataFrame([{
+       X = pd.DataFrame([{
     "age": age,
     "gender": gender_val,
     "height": height,
@@ -505,10 +505,9 @@ elif page == "Risk Assessment":
 
 X = X[model.feature_names_in_]
 
-        
-        # Get prediction
-        prob = model.predict_proba(X)[0][1]
-        risk_percentage = prob * 100
+prob = model.predict_proba(X)[0][1]
+risk_percentage = prob * 100
+
         
         # Determine risk level
         if risk_percentage >= 70:
