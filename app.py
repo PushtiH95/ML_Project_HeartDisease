@@ -1153,14 +1153,14 @@ with st.sidebar:
     
     st.markdown("---")
     
-    st.markdown("""
-    <div style='padding: 1rem; background: var(--card-bg-light); border-radius: 8px; margin: 1rem 0;'>
-        <p style='margin: 0; font-weight: 600; color: var(--text-dark);'>System Theme</p>
-        <p style='margin: 0; font-size: 0.9rem; opacity: 0.7;'>Adapts to device preferences</p>
-    </div>
-    """, unsafe_allow_html=True)
+    # st.markdown("""
+    # <div style='padding: 1rem; background: var(--card-bg-light); border-radius: 8px; margin: 1rem 0;'>
+    #     <p style='margin: 0; font-weight: 600; color: var(--text-dark);'>System Theme</p>
+    #     <p style='margin: 0; font-size: 0.9rem; opacity: 0.7;'>Adapts to device preferences</p>
+    # </div>
+    # """, unsafe_allow_html=True)
     
-    st.caption(f"Last updated: {datetime.now().strftime('%d %b %Y, %H:%M')}")
+    # st.caption(f"Last updated: {datetime.now().strftime('%d %b %Y, %H:%M')}")
 
 # ===============================
 # CLINICAL DASHBOARD PAGE
@@ -1257,7 +1257,7 @@ if page == "Clinical Dashboard":
     
     with col2:
         st.markdown("""
-        <div class='professional-card'>
+            <div class='professional-card'>
             <h3 style='margin-top: 0;'>Key Correlations</h3>
             <div class='feature-importance'>Age ↔ Systolic BP: +0.47</div>
             <div class='feature-importance'>BMI ↔ Diastolic BP: +0.39</div>
@@ -1269,7 +1269,7 @@ if page == "Clinical Dashboard":
             Age and blood pressure show strongest correlation with cardiovascular risk.
             BMI demonstrates moderate correlation with blood pressure metrics.
             </p>
-        </div>
+            </div>
         """, unsafe_allow_html=True)
 
 # ===============================
@@ -1327,7 +1327,7 @@ elif page == "Risk Assessment":
         with col2:
             st.markdown("<div class='section-title'>Clinical Guidelines</div>", unsafe_allow_html=True)
             st.markdown("""
-            <div class='professional-card'>
+               <div class='professional-card'>
                 <h4>Normal Ranges</h4>
                 <p>• BP: <120/80 mmHg</p>
                 <p>• BMI: 18.5-24.9</p>
@@ -1338,7 +1338,7 @@ elif page == "Risk Assessment":
                 <p>• Systolic BP >140</p>
                 <p>• BMI >30</p>
                 <p>• Smoking history</p>
-            </div>
+                </div>
             """, unsafe_allow_html=True)
     
     if submitted:
@@ -1389,14 +1389,14 @@ elif page == "Risk Assessment":
         
         with col_res1:
             st.markdown(f"""
-            <div class='professional-card' style='text-align: center;'>
+               <div class='professional-card' style='text-align: center;'>
                 <div style='font-size: 1.2rem; margin-bottom: 1rem;'>Risk Assessment</div>
                 <div class='{risk_class}' style='font-size: 1.5rem; padding: 1.5rem;'>
                     {risk_level} RISK
                 </div>
                 <div class='metric-value'>{risk_percentage:.1f}%</div>
                 <div style='font-size: 0.9rem; opacity: 0.8;'>Probability Score</div>
-            </div>
+                </div>
             """, unsafe_allow_html=True)
             
             # Gauge Chart
@@ -1613,7 +1613,7 @@ elif page == "Model Analysis":
     with col_viz2:
         st.markdown("<div class='section-title'>Model Performance Insights</div>", unsafe_allow_html=True)
         st.markdown("""
-        <div class='professional-card'>
+            <div class='professional-card'>
             <h4>Why Decision Tree Performs Best</h4>
             
             <div class='feature-importance'>Clinical Interpretability</div>
@@ -1641,7 +1641,7 @@ elif page == "Model Analysis":
             <p>• Post-tuning accuracy improvement: <strong>18.28%</strong></p>
             <p>• Cross-validation consistency: <strong>±0.8%</strong></p>
             <p>• Feature importance alignment: <strong>92%</strong> with clinical studies</p>
-        </div>
+            </div>
         """, unsafe_allow_html=True)
 
 # ===============================
@@ -1655,7 +1655,7 @@ elif page == "Methodology":
     with col_meth1:
         st.markdown("<div class='section-title'>Data Processing Pipeline</div>", unsafe_allow_html=True)
         st.markdown("""
-        <div class='professional-card'>
+            <div class='professional-card'>
             <h4>1. Data Acquisition</h4>
             <p>• Source: Cardiovascular Disease Dataset (70k records)</p>
             <p>• Variables: 12 clinical parameters per patient</p>
@@ -1671,13 +1671,13 @@ elif page == "Methodology":
             <p>• Clinical validity verification</p>
             <p>• Range checking for physiological values</p>
             <p>• Temporal consistency validation</p>
-        </div>
+            </div>
         """, unsafe_allow_html=True)
         
     with col_meth2:
         st.markdown("<div class='section-title'>Model Development</div>", unsafe_allow_html=True)
         st.markdown("""
-        <div class='professional-card'>
+            <div class='professional-card'>
             <h4>1. Model Selection</h4>
             <p>• Four algorithms evaluated: Logistic Regression, Random Forest, Naive Bayes, Decision Tree</p>
             <p>• Selection criteria: Accuracy, interpretability, clinical relevance</p>
@@ -1691,12 +1691,12 @@ elif page == "Methodology":
             <p>• Clinical expert validation</p>
             <p>• Comparison with established risk scores</p>
             <p>• Real-world performance monitoring</p>
-        </div>
+            </div>
         """, unsafe_allow_html=True)
     
     st.markdown("<div class='section-title'>Model Selection Rationale</div>", unsafe_allow_html=True)
     st.markdown("""
-    <div class='professional-card'>
+        <div class='professional-card'>
         <h4>Decision Tree Advantages</h4>
         
         <div class='feature-importance'>Clinical Interpretability</div>
@@ -1722,7 +1722,7 @@ elif page == "Methodology":
             Transparent decision-making process facilitates regulatory approval
             and clinical adoption.
         </p>
-    </div>
+        </div>
     """, unsafe_allow_html=True)
 
 # ===============================
@@ -1739,10 +1739,10 @@ elif page == "Technical Documentation":
     doc_df.columns = ["Model Type", "Train-Test Split Accuracy", "K-Fold Cross Validation Accuracy", "Post-Tuning Accuracy"]
     
     st.markdown("""
-    <div class='professional-card'>
+        <div class='professional-card'>
         <h3>Accuracy Metrics Reference Table</h3>
         <p>The table below presents the performance metrics for all evaluated machine learning models in the CardioPredict AI system.</p>
-    </div>
+        </div>
     """, unsafe_allow_html=True)
     
     # Display with better formatting
@@ -1763,7 +1763,7 @@ elif page == "Technical Documentation":
     
     with col_tech1:
         st.markdown("""
-        <div class='professional-card'>
+            <div class='professional-card'>
             <h4>System Architecture</h4>
             <p><strong>Frontend:</strong> Streamlit web application</p>
             <p><strong>Backend:</strong> Python 3.9+ with scikit-learn</p>
@@ -1775,12 +1775,12 @@ elif page == "Technical Documentation":
             <p><strong>Minimum RAM:</strong> 4GB</p>
             <p><strong>Disk Space:</strong> 500MB</p>
             <p><strong>Browser Support:</strong> Chrome, Firefox, Safari, Edge</p>
-        </div>
+            </div>
         """, unsafe_allow_html=True)
     
     with col_tech2:
         st.markdown("""
-        <div class='professional-card'>
+            <div class='professional-card'>
             <h4>Model Specifications</h4>
             <p><strong>Selected Model:</strong> Decision Tree Classifier</p>
             <p><strong>Maximum Depth:</strong> 5 levels</p>
@@ -1793,37 +1793,7 @@ elif page == "Technical Documentation":
             <p><strong>Data Types:</strong> Numeric and categorical</p>
             <p><strong>Required Fields:</strong> All 12 features</p>
             <p><strong>Validation:</strong> Range and type checking</p>
-        </div>
+            </div>
         """, unsafe_allow_html=True)
     
-    # API Documentation
-    st.markdown("<div class='section-title'>API Documentation</div>", unsafe_allow_html=True)
     
-    st.markdown("""
-    <div class='professional-card'>
-        <h4>Prediction Endpoint</h4>
-        <pre style="background: var(--card-bg-light); padding: 16px; border-radius: 8px; overflow-x: auto;">
-Input format:
-{
-    "age": 45,
-    "gender": 1,
-    "height": 170,
-    "weight": 75,
-    "systolic_bp": 120,
-    "diastolic_bp": 80,
-    "cholesterol": 1,
-    "gluc": 1,
-    "smoke": 0,
-    "alco": 0,
-    "active": 1
-}
-
-Output format:
-{
-    "risk_percentage": 72.78,
-    "risk_level": "HIGH",
-    "recommendations": ["..."]
-}
-        </pre>
-    </div>
-    """, unsafe_allow_html=True)
